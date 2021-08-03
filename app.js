@@ -1,4 +1,4 @@
-// Tyler Moody - Saginaw Valley State University - CIS355
+// Tyler Moody
 // App.js manages the infinity-market MongoDB database
 // ----------------------------------------------------------------
 const express = require('express');

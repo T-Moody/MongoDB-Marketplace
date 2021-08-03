@@ -10,8 +10,9 @@ const router = new express.Router();
 
 // ----------------------------------------------------------------
 // Sends all products to client.
-router.get('/products', (req, res) => 
+router.get('/products', authenticateUser, async (req, res) => 
 {
+
     // Find all products
     Product.find({}, (error, products) => 
     {
@@ -28,42 +29,30 @@ router.get('/products', (req, res) =>
 });
 // ----------------------------------------------------------------
 // Adds a product to the database.
-router.post('/products', (req,res) =>
+router.post('/products', authenticateUser, async (req,res) =>
 {
     // Get input
-    const input = req.body;
+    const productInput = req.body;
 
-    // Find owner id.
-    User.findOne({user_name: input.seller}, (error, user) =>
+    try
     {
-        if (!user || error)
+        // Create new product.
+        const newProduct = new Product(
         {
-            res.send({error: 'User not found'});
-        }
-        else
-        {
-            // Create new product.
-            const newProduct = new Product(
-            {
-                name: input.name,
-                price: input.price,
-                owner: user._id
-            });
+            name: productInput.name,
+            price: productInput.price,
+            owner: req.user._id
+        });
 
-            // Update the product collection
-            newProduct.save((error,result)=>
-            {
-                if (error)
-                { 
-                    res.send({error: 'Something went wrong'});
-                }
-                else 
-                {
-                    res.send(result);
-                }
-            });
-        }
-    }); 
+        // Update database and send results to client.
+        const product = await newProduct.save();
+        res.send(product);
+    }
+    catch (error)
+    {
+        // Send error if item could not be created.
+        res.send({message: 'Something went wrong'});
+    }
 });
 // ----------------------------------------------------------------
 // Transfers ownership from one user to another if criteria is met.
