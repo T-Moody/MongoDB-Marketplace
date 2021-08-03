@@ -4,28 +4,26 @@ const express = require('express');
 const Product = require('../models/Product');  // require product models
 const User = require('../models/User');  // require user models
 const authenticateUser = require('../middleware/AuthenticateUser');
+const product = require('../models/Product');
 
 // Create router.
 const router = new express.Router();
 
 // ----------------------------------------------------------------
 // Sends all products to client.
-router.get('/products', authenticateUser, async (req, res) => 
+router.get('/products', async (req, res) => 
 {
-
-    // Find all products
-    Product.find({}, (error, products) => 
+    try
     {
-        if (error)
-        {
-            res.send(error);
-        }
-        else 
-        {
-            // Send an array of products.
-            res.send(products);
-        }
-    }); 
+        // Find all products and send to client.
+        const products = await Product.find({});
+        res.send(products);
+    }
+    catch (error)
+    {
+        // Send error if products could not be retrieved.
+        res.send({message: 'Could not retrieve products'});
+    }
 });
 // ----------------------------------------------------------------
 // Adds a product to the database.
