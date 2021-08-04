@@ -9,7 +9,7 @@ const authenticateUser = async (req,res,next)=>
     // Send error if session does not exist.
     if(!req.session.user_id)
     {    
-        return res.send({message: 'This page requires you to be logged in'})
+        return res.send({message: 'This page requires you to be logged in'});
     }
 
     // Find existing session by id.
@@ -22,7 +22,7 @@ const authenticateUser = async (req,res,next)=>
     catch(error)
     {
         // Send error message if error occurs.
-        res.send({message: 'There was an error'})
+        res.send({message: 'There was an error'});
     }
 }
 

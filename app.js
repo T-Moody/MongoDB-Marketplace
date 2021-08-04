@@ -8,11 +8,11 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
 // Import user and item routers.
-const userRouter = require('./routers/User')      
-const productRouter = require('./routers/Product')
+const userRouter = require('./routers/User');      
+const productRouter = require('./routers/Product');
 
 // Connect to the database.
-const url = 'mongodb+srv://tpmoody:tbxNfEPjF5nCWbaI@cluster0.80n5j.mongodb.net/infinity-market?retryWrites=true&w=majority'
+const url = 'mongodb+srv://tpmoody:tbxNfEPjF5nCWbaI@cluster0.80n5j.mongodb.net/infinity-market?retryWrites=true&w=majority';
 mongoose.connect(url, 
 {
     useNewUrlParser: true,
@@ -35,7 +35,7 @@ app.use(session({
     resave:false,
     saveUninitialized:false,
     store: MongoStore.create({ mongoUrl: url })
-}))
+}));
 
 // Implement routers.
 app.use(userRouter);  

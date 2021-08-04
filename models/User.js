@@ -1,7 +1,7 @@
 // Model for a user.
 // ----------------------------------------------------------------
-const mongoose = require('mongoose')
-const Product = require('./Product')
+const mongoose = require('mongoose');
+const Product = require('./Product');
 
 // Schema for user creation.
 const UserSchema = new mongoose.Schema(

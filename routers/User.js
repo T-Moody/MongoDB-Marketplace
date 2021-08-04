@@ -56,7 +56,7 @@ router.post('/users/register', async (req,res) =>
     catch(error)
     {
         // Send error if operation failed.
-        res.send({error: 'Could not create user.'})
+        res.send({error: 'Could not create user.'});
     }
 });
 // ----------------------------------------------------------------
@@ -78,7 +78,7 @@ router.post('/users/login', async (req, res) =>
         // Log in if password matches. 
         if (isMatch)
         {
-            req.session.user_id = user._id
+            req.session.user_id = user._id;
             res.send({message: `Successfully logged in. Welcome ${user.name}`});
         }
         else
@@ -90,7 +90,7 @@ router.post('/users/login', async (req, res) =>
     catch (error)
     {
         // Return error if login failed.
-        res.send({message: 'Error logging in. Incorrect username/password'})
+        res.send({message: 'Error logging in. Incorrect username/password'});
     }
 });
 // ----------------------------------------------------------------
@@ -120,9 +120,9 @@ router.delete('/users/me', authenticateUser, async (req,res) =>
     catch (error)
     {
         // Error message if deletion fails.
-        res.send({message: `Could not delete ${req.user.name}`})
+        res.send({message: `Could not delete ${req.user.name}`});
     }
 });
 
 // Export user routers.
-module.exports = router
+module.exports = router;

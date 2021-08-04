@@ -4,7 +4,6 @@ const express = require('express');
 const Product = require('../models/Product');  // require product models
 const User = require('../models/User');  // require user models
 const authenticateUser = require('../middleware/AuthenticateUser');
-const product = require('../models/Product');
 
 // Create router.
 const router = new express.Router();
@@ -110,15 +109,15 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
     catch (error)
     {
         // Send error message for unexpected errors.
-        res.send({message: 'Could not perform action'})
+        res.send({message: 'Could not perform action'});
     }
 });
 // ----------------------------------------------------------------
 // Deletes a product from the database.
 router.delete('/products/:id', authenticateUser, async (req, res)=>
 {
-    const productID = req.params.id;        // Get product id.
-    const productOwnerID = req.user._id     // Get owner id.
+    const productID = req.params.id;         // Get product id.
+    const productOwnerID = req.user._id;     // Get owner id.
     const errorMessage = 'You are not authorized to perform this operation';  // Create error message.
     
     try
