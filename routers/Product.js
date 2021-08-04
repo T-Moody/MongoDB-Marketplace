@@ -54,82 +54,93 @@ router.post('/products', authenticateUser, async (req,res) =>
 });
 // ----------------------------------------------------------------
 // Transfers ownership from one user to another if criteria is met.
-router.post('/products/buy', (req, res) =>
+router.post('/products/buy', authenticateUser, async (req, res) =>
 {
-    // Find buyer
-    User.findOne({user_name: req.body.user_name}, (error, buyer) =>
+    try
     {
-        if (!buyer || error)
+        // Find the buyer.
+        const buyer = await User.findById({_id: req.user._id});
+
+        // Error if buyer doesn't exist.
+        if (!buyer)
         {
-            // Error if buyer doesn't exist.
-            res.send({msg: `Oops, ${req.body.user_name} was not found`});
+            res.send({message: `Oops, ${req.user.user_name} was not found`});
+        }
+
+        // Find the product.
+        const product = await Product.findById({_id: req.body.productID});
+
+        // Error if product does not exist.
+        if (!product)
+        {
+            res.send({message: `Oops, ${req.body.productID} was not found`});
+        }
+
+        // Find the seller.
+        const seller = await User.findById({_id: product.owner});
+
+        // Error if buyer and seller are the same.
+        if (seller._id.equals(buyer._id))
+        {
+            res.send({message: `Oops, ${buyer.name} already owns this item`});
+        }
+        else if (buyer.balance < product.price)
+        {
+            // Error if buyer does not have enough money.
+            res.send({message: `Oops, ${buyer.name} has insufficient funds`});
         }
         else
         {
-            // Find product
-            Product.findById({_id: req.body.productID}, (error, product) =>
-            {
-                if (!product || error)
-                {
-                    // Error if product does not exist.
-                    res.send({msg: `Oops, ${req.body.productID} was not found`});
-                }
-                else
-                {
-                    // Find seller
-                    User.findById({_id: product.owner}, (error, seller) =>
-                    {
-                        
-                        if (seller._id.equals(buyer._id) || error)
-                        {
-                            // Error if buyer and seller are the same.
-                            res.send({msg: `Oops, ${buyer.name} already owns this item`});
-                        }
-                        else if (buyer.balance < product.price)
-                        {
-                            // Error if buyer does not have enough money.
-                            res.send({msg: `Oops, ${buyer.name} has insufficient funds`});
-                        }
-                        else
-                        {
-                            // Update buyers balance.
-                            buyer.balance -= product.price;
-                            buyer.save();
-                            
-                            // Update sellers balance.
-                            seller.balance += product.price;
-                            seller.save();
+            // Update buyers balance.
+            buyer.balance -= product.price;
+            buyer.save();
+            
+            // Update sellers balance.
+            seller.balance += product.price;
+            seller.save();
 
-                            // Update owner of product to match buyer.
-                            product.owner = buyer._id;
-                            product.save();
-                           
-                            // Display success message.
-                            res.send({msg: 'transaction successful!'});
-                        }
-                    }) 
-                }
-            });
+            // Update owner of product to match buyer.
+            product.owner = buyer._id;
+            product.save();
+        
+            // Display success message.
+            res.send({message: 'transaction successful!'});
         }
-    });
+    }
+    catch (error)
+    {
+        // Send error message for unexpected errors.
+        res.send({message: 'Could not perform action'})
+    }
 });
 // ----------------------------------------------------------------
 // Deletes a product from the database.
-router.delete('/products/:id', (req, res)=>
+router.delete('/products/:id', authenticateUser, async (req, res)=>
 {
-    Product.deleteOne({_id: req.params.id}, (error, result) =>
+    const productID = req.params.id;        // Get product id.
+    const productOwnerID = req.user._id     // Get owner id.
+    const errorMessage = 'You are not authorized to perform this operation';  // Create error message.
+    
+    try
     {
-        if (result.deletedCount === 0) 
+        // Delete the product with match product and owner id.
+        deletedProduct = await Product.deleteOne({_id: productID, owner: productOwnerID});
+
+        // If successful send success message, else send error message.
+        if (deletedProduct.deletedCount === 1)
         {
-            // Error if item could not be deleted.
-            res.send({error: "Could not delete item"});
+            res.send({message: `Product has been deleted`});
         }
-        else 
+        else
         {
-            // Send success message.
-            res.send({result: "The item has been deleted"});
+            res.send({message: errorMessage});
         }
-    });
+    }
+    catch (error)
+    {
+        // Send error message if any other error occur.
+        res.send({message: errorMessage});
+    }
 });
 
 // Export routers
