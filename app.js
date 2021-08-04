@@ -29,7 +29,6 @@ app.set('views', path.join(__dirname, 'views')); // set the path to the views fo
 app.set('view engine', 'ejs');                   // set the view engine to engine
 app.use(express.urlencoded({extended: true}));   // to parse requests using req.body
 app.use(express.json());                         // For recognizing incoming objects as json.
-app.use(express.static(path.join(__dirname, 'public'))); // set the path to public assets
 app.use(session({
     secret:'topsecretkey',
     resave:false,
