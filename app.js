@@ -1,6 +1,7 @@
 // Tyler Moody
 // App.js manages the infinity-market MongoDB database
 // ----------------------------------------------------------------
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');  // ODM for MongoDB
@@ -12,7 +13,7 @@ const userRouter = require('./routers/User');
 const productRouter = require('./routers/Product');
 
 // Connect to the database.
-const url = 'mongodb+srv://tpmoody:tbxNfEPjF5nCWbaI@cluster0.80n5j.mongodb.net/infinity-market?retryWrites=true&w=majority';
+const url = process.env.MONGO_URL;
 mongoose.connect(url, 
 {
     useNewUrlParser: true,
@@ -22,17 +23,16 @@ mongoose.connect(url,
 
 // Start server on port.
 const app = express();
-const port = 3000;
-app.listen(port);
+app.listen(process.env.PORT);
 
 app.set('views', path.join(__dirname, 'views')); // set the path to the views folder
 app.set('view engine', 'ejs');                   // set the view engine to engine
 app.use(express.urlencoded({extended: true}));   // to parse requests using req.body
 app.use(express.json());                         // For recognizing incoming objects as json.
-app.use(session({
-    secret:'topsecretkey',
-    resave:false,
-    saveUninitialized:false,
+app.use(session({                                // Session values.
+    secret: process.env.SESSION_KEY,
+    resave: false,
+    saveUninitialized: false,
     store: MongoStore.create({ mongoUrl: url })
 }));
 

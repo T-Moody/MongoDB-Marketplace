@@ -98,7 +98,7 @@ router.post('/users/login', async (req, res) =>
 router.post('/users/logout', authenticateUser, (req, res) =>
 {
     // Delete session with client and send confirmation.
-    req.session.destroy();
+    delete req.session.user_id;
     res.send({message: `Successfully logged out ${req.user.name}`});
 });
 // ----------------------------------------------------------------
@@ -112,7 +112,7 @@ router.delete('/users/me', authenticateUser, async (req,res) =>
         const deleteUser = await user.deleteOne();
         
         // Delete session with client.
-        req.session.destroy();
+        delete req.session.user_id;
 
         // Send confirmation that user was deleted.
         res.send({message: `${req.user.name} has been deleted!`});
