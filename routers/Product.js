@@ -63,18 +63,18 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
         // Error if buyer doesn't exist.
         if (!buyer)
         {
-            res.send({message: `Oops, ${req.user.user_name} was not found`});
+            return res.send({message: `Oops, ${req.user.user_name} was not found`});
         }
 
         // Find the product.
         const product = await Product.findById({_id: req.body.productID});
-
+    
         // Error if product does not exist.
         if (!product)
         {
-            res.send({message: `Oops, ${req.body.productID} was not found`});
+            return res.send({message: `Oops, ${req.body.productID} was not found`});
         }
-
+        
         // Find the seller.
         const seller = await User.findById({_id: product.owner});
 
