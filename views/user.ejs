@@ -4,7 +4,7 @@
     <div class="row mx-0 w-100">
         <div class="col py-3 text-center bg-warning">
           <h3>Hello, <%= locals.user.name %></h3>
-          <form action="/logout" method="GET">
+          <form action="/users/logout" method="POST">
             <input type="submit" class="btn btn-primary" value="Log out">
           </form>
         </div>
@@ -49,7 +49,7 @@
           <hr/>
           <!-- Seller Items -->
           <h3>Buy an item</h3>
-          <form action="/buy" method="POST">
+          <form action="/products/buy" method="POST">
           <div class="row row-cols-1 row-cols-md-2 g-4 py-3">
             <!-- Find items owned by other users. -->
             <% for (let item of locals.items){ %>
