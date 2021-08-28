@@ -1,0 +1,76 @@
+<!-- User page allows for buying and managing items -->
+<%- include("header.ejs") %>
+<body class="pb-5">
+    <div class="row mx-0 w-100">
+        <div class="col py-3 text-center bg-warning">
+          <h3>Hello, <%= locals.user.name %></h3>
+          <form action="/logout" method="GET">
+            <input type="submit" class="btn btn-primary" value="Log out">
+          </form>
+        </div>
+      </div>
+    <div class="container py-3 content">
+      <!-- At a glance table displays user information -->
+        <h3>At a glance</h3>
+        <hr/>
+        <table class="table">
+            <thead class="bg-info">
+              <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Username</th>
+                <th scope="col">Current Balance </th>
+                <th scope="col">Items Owned</th>
+              </tr>
+            </thead>
+            <tbody class="bg-light">
+              <tr>
+                <th scope="row"><%= locals.user.name %></th>
+                <td name="username"><%= locals.user.user_name %></td>
+                <td>$<%= locals.user.balance %></td>
+                <td><%= locals.user.items.length %></td>
+              </tr>
+            </tbody>
+          </table>
+          <!--End At a glance table -->
+          <hr/>
+          <!-- Users Items -->
+          <h3>Your Items</h3>
+          <div class="card-group py-3">
+            <!-- Find items owned by user -->
+            <% for (let item of locals.items){ %>
+              <% if (item.seller === locals.user.user_name) { %>
+                <div class="card d-inline-block">
+                <%- include("item.ejs", {item: item}); %>
+              </div>
+                <% } %>
+              <% } %>
+          </div>
+          <!-- End User Items --> 
+          <hr/>
+          <!-- Seller Items -->
+          <h3>Buy an item</h3>
+          <form action="/buy" method="POST">
+          <div class="row row-cols-1 row-cols-md-2 g-4 py-3">
+            <!-- Find items owned by other users. -->
+            <% for (let item of locals.items){ %>
+              <% if (item.seller !== locals.user.user_name) { %>
+                <!-- Make items transparent if user cannot afford.-->
+                <% let transparent = (parseInt(item.price.substring(1)) > locals.user.balance) ? "transparent" : ""; %>
+                <div class="col w-auto">
+                  <input class="form-check-input float-start mx-2 <%= transparent %>" type="radio" name="forSale" id="flexRadioDefault1" value="<%= item.id %>">
+                  <div class="card d-inline-block <%= transparent %>">
+                <%- include("item.ejs", {item: item}); %>
+                </div>
+              </div>
+                <% } %> 
+          <% } %>
+          <!-- End Seller Items -->
+          </div>
+          <!-- Buy button -->
+            <input type="submit" class="btn btn-primary w-100" value="Buy Now">
+            <input type="hidden" name="currentUser" value="<%= locals.user.user_name %>">
+          </form>
+      </div>
+    <%- include("footer.ejs") %>
+</body>
+</html>
