@@ -14,11 +14,12 @@ router.get('/users/me', authenticateUser, async (req,res) =>
 {
     // Get user and all owned items.
     const userProfile = await User.findOne({user_name: req.user.user_name}).populate('items').exec();
-
+    
     // Remove password property and send result to user.
     const profileObj = userProfile.toObject();
     delete profileObj.password;
-    res.send(profileObj);
+    console.log(profileObj);
+    res.render('user.ejs', {items: profileObj.items, user: profileObj});
 });
 // ----------------------------------------------------------------
 // Displays all of the users and their items.
@@ -79,7 +80,8 @@ router.post('/users/login', async (req, res) =>
         if (isMatch)
         {
             req.session.user_id = user._id;
-            res.send({message: `Successfully logged in. Welcome ${user.name}`});
+            //res.send({message: `Successfully logged in. Welcome ${user.name}`});
+            res.redirect('/users/me')
         }
         else
         {

@@ -2,9 +2,9 @@
   <!-- Generic Card for items -->
     <div class="card-body">
       <h5 class="card-title"><%= item.name %></h5>
-      <p class="card-text">Item ID <%= item.id.toString() %></p>
-      <% if (item.seller !== locals.user.user_name) { %>
-        <p class="card-text">Seller: <%= item.seller %></p>
+      <p class="card-text">Item ID <%= item._id.toString() %></p>
+      <% if (item.owner !== locals.user._id) { %>
+        <p class="card-text">Seller: <%= item.owner %></p>
       <% } %>
     </div>
   <p class="card-text border-top py-1 px-3 bg-light"><small class="text-muted">Price <%= item.price %></small></p>

@@ -44,5 +44,5 @@ app.use(productRouter);
 // Path to home.
 app.get('/', (req, res) => 
 {
-    res.send('This is the home page');
+    res.render('home.ejs');
 });
