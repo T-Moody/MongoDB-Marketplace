@@ -10,7 +10,7 @@ const router = new express.Router();
 
 // ----------------------------------------------------------------
 // Find user by username and send to client.
-router.get('/users/me', authenticateUser, async (req,res) =>
+router.get('/users/:user_name', authenticateUser, async (req,res) =>
 {
     // Get user and all owned items.
     const userProfile = await User.findOne({user_name: req.user.user_name}).populate('items').exec();
@@ -52,7 +52,8 @@ router.post('/users/register', async (req,res) =>
         const user = await newUser.save();
         const userObj = user.toObject();
         delete userObj.password;
-        res.send(userObj);
+        //res.send(userObj);
+        res.redirect('/users/' + userObj.user_name);
     }
     catch(error)
     {
@@ -81,7 +82,7 @@ router.post('/users/login', async (req, res) =>
         {
             req.session.user_id = user._id;
             //res.send({message: `Successfully logged in. Welcome ${user.name}`});
-            res.redirect('/users/me')
+            res.redirect('/users/' + user.user_name)
         }
         else
         {
@@ -101,7 +102,8 @@ router.post('/users/logout', authenticateUser, (req, res) =>
 {
     // Delete session with client and send confirmation.
     req.session.destroy();
-    res.send({message: `Successfully logged out ${req.user.name}`});
+    //res.send({message: `Successfully logged out ${req.user.name}`});
+    res.redirect('/');
 });
 // ----------------------------------------------------------------
 // Delete a single user by id.
