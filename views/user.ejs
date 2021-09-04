@@ -38,7 +38,9 @@
           <div class="card-group py-3">
             <!-- Find items owned by user -->
             <% for (let item of locals.items){ %>
-              <% if (item.owner === locals.user._id) { %>
+              <% console.log(item.owner)%>
+              <% console.log(locals.user._id)%>
+              <% if (item.owner.equals(locals.user._id)) { %>
                 <div class="card d-inline-block">
                 <%- include("item.ejs", {item: item}); %>
               </div>
@@ -53,7 +55,7 @@
           <div class="row row-cols-1 row-cols-md-2 g-4 py-3">
             <!-- Find items owned by other users. -->
             <% for (let item of locals.items){ %>
-              <% if (item.owner !== locals.user._id) { %>
+              <% if (!item.owner.equals(locals.user._id)) { %>
                 <!-- Make items transparent if user cannot afford.-->
                 <% let transparent = (parseInt(item.price) > locals.user.balance) ? "transparent" : ""; %>
                 <div class="col w-auto">

@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="card-title"><%= item.name %></h5>
       <p class="card-text">Item ID <%= item._id.toString() %></p>
-      <% if (item.owner !== locals.user._id) { %>
+      <% if (!item.owner.equals(locals.user._id)) { %>
         <p class="card-text">Seller: <%= item.owner %></p>
       <% } %>
     </div>
