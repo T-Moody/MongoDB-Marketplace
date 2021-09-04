@@ -1,5 +1,5 @@
 // Tyler Moody
-// App.js manages the infinity-market MongoDB database
+// App.js manages the infinity-market MongoDB database.
 // ----------------------------------------------------------------
 require('dotenv').config();
 const express = require('express');
