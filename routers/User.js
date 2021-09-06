@@ -46,13 +46,14 @@ router.post('/users/register', async (req,res) =>
     try
     {
         // Hash password.
-        newUser.password = await bcrypt.hash(newUser.password, 8); 
+        newUser.password = await bcrypt.hash(newUser._id + newUser.password, 8);
 
         // Save user and send response without password.
         const user = await newUser.save();
         const userObj = user.toObject();
         delete userObj.password;
         //res.send(userObj);
+        req.session.user_id = userObj._id;
         res.redirect('/users/' + userObj.user_name);
     }
     catch(error)
@@ -75,7 +76,7 @@ router.post('/users/login', async (req, res) =>
         const user = await User.findOne({user_name: username});  
 
         // Check if password matches.
-        const isMatch = await bcrypt.compare(password, user.password);  
+        const isMatch = await bcrypt.compare(user._id + password, user.password);  
 
         // Log in if password matches. 
         if (isMatch)
