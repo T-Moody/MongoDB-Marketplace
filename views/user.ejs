@@ -33,6 +33,14 @@
           </table>
           <!--End At a glance table -->
           <hr/>
+          <h3>Add New Item</h3>
+          <form class="mb-3 w-25" action="/products" method="POST">
+            <label for="InputItemName" class="form-label mb-3">Item Name</label>
+            <input type="text" class="form-control mb-3" name="name" id="">
+            <label for="InputItemPrice" class="form-label mb-3">Item Price</label>
+            <input type="text" class="form-control mb-3" name="price" id="">
+            <input type="submit" class="btn btn-primary mb-3" value="Add Item">
+          </form>
           <!-- Users Items -->
           <h3>Your Items</h3>
           <div class="card-group py-3">
