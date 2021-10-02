@@ -3,8 +3,16 @@
     <div class="card-body">
       <h5 class="card-title"><%= item.name %></h5>
       <p class="card-text">Item ID <%= item._id.toString() %></p>
+      <!-- Add item owner field if this is not the current users item -->
       <% if (!item.owner.equals(locals.user._id)) { %>
         <p class="card-text">Seller: <%= item.owner %></p>
       <% } %>
+      <!-- Add delete field if this is the current users item -->
+      <% if (item.owner.equals(locals.user._id)) { %>
+        <form class="mb-3 w-25" action="/products/<%=item._id%>/delete" method="GET">
+          <input type="submit" class="btn btn-primary mb-3" value="Delete">
+        </form>
+      <% } %>
     </div>
   <p class="card-text border-top py-1 px-3 bg-light"><small class="text-muted">Price <%= item.price %></small></p>
+  
