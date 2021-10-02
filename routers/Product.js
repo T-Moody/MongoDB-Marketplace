@@ -44,7 +44,7 @@ router.post('/products', authenticateUser, async (req,res) =>
 
         // Update database and send results to client.
         const product = await newProduct.save();
-        res.redirect('/users/' + req.user_name);
+        res.redirect('/users/' + req.user.user_name);
     }
     catch (error)
     {
