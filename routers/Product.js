@@ -67,12 +67,13 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
         }
 
         // Find the product.
-        const product = await Product.findById({_id: req.body.productID});
+        console.log(req.body.forSale)
+        const product = await Product.findById({_id: req.body.forSale});
     
         // Error if product does not exist.
         if (!product)
         {
-            return res.send({message: `Oops, ${req.body.productID} was not found`});
+            return res.send({message: `Oops, ${req.body.forSale} was not found`});
         }
         
         // Find the seller.
@@ -103,7 +104,7 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
             product.save();
         
             // Display success message.
-            res.send({message: 'transaction successful!'});
+            res.redirect('/users/' + req.user_name);
         }
     }
     catch (error)

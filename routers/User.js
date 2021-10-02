@@ -3,6 +3,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');       // require password encryption
 const User = require('../models/User'); // require user models
+const Products = require('../models/Product')
 const authenticateUser = require('../middleware/AuthenticateUser');
 
 // Create router.
@@ -14,12 +15,13 @@ router.get('/users/:user_name', authenticateUser, async (req,res) =>
 {
     // Get user and all owned items.
     const userProfile = await User.findOne({user_name: req.user.user_name}).populate('items').exec();
+    const allProducts = await Products.find({});
     
     // Remove password property and send result to user.
     const profileObj = userProfile.toObject();
     delete profileObj.password;
     console.log(profileObj);
-    res.render('user.ejs', {items: profileObj.items, user: profileObj});
+    res.render('user.ejs', {items: allProducts, user: profileObj});
 });
 // ----------------------------------------------------------------
 // Displays all of the users and their items.
