@@ -3,4 +3,4 @@ Salt password - Done
 There are some routes not being used.
     - Find a way to implement products get route.
 
-There is a bug that causes newly registered to get an error saying that they aren't logged in. It only happens if I shut the server down while logged in.
+There is a bug that causes newly registered to get an error saying that they aren't logged in. Sometimes happens when switching users.

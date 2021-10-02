@@ -46,8 +46,6 @@
           <div class="card-group py-3">
             <!-- Find items owned by user -->
             <% for (let item of locals.items){ %>
-              <% console.log(item.owner)%>
-              <% console.log(locals.user._id)%>
               <% if (item.owner.equals(locals.user._id)) { %>
                 <div class="card d-inline-block">
                 <%- include("item.ejs", {item: item}); %>

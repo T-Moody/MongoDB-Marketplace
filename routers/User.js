@@ -20,7 +20,6 @@ router.get('/users/:user_name', authenticateUser, async (req,res) =>
     // Remove password property and send result to user.
     const profileObj = userProfile.toObject();
     delete profileObj.password;
-    console.log(profileObj);
     res.render('user.ejs', {items: allProducts, user: profileObj});
 });
 // ----------------------------------------------------------------
@@ -54,10 +53,9 @@ router.post('/users/register', async (req,res) =>
         const user = await newUser.save();
         const userObj = user.toObject();
         delete userObj.password;
-        
+
         //res.send(userObj);
         req.session.user_id = userObj._id;
-        console.log(userObj._id)
         res.redirect('/users/' + userObj.user_name);
     }
     catch(error)

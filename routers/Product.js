@@ -68,7 +68,6 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
         }
 
         // Find the product.
-        console.log(req.body.forSale)
         const product = await Product.findById({_id: req.body.forSale});
     
         // Error if product does not exist.
