@@ -104,7 +104,7 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
             product.save();
         
             // Display success message.
-            res.redirect('/users/' + req.user_name);
+            res.redirect('/users/' + req.user.user_name);
         }
     }
     catch (error)
@@ -129,7 +129,7 @@ router.get('/products/:id/delete', authenticateUser, async (req, res)=>
         // If successful send success message, else send error message.
         if (deletedProduct.deletedCount === 1)
         {
-            res.redirect('/users/' + req.user_name);
+            res.redirect('/users/' + req.user.user_name);
         }
         else
         {
