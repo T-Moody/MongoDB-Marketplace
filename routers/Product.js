@@ -38,7 +38,8 @@ router.post('/products', authenticateUser, async (req,res) =>
         {
             name: productInput.name,
             price: productInput.price,
-            owner: req.user._id
+            owner: req.user._id,
+            owner_user_name: req.user.user_name
         });
 
         // Update database and send results to client.

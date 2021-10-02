@@ -54,8 +54,10 @@ router.post('/users/register', async (req,res) =>
         const user = await newUser.save();
         const userObj = user.toObject();
         delete userObj.password;
+        
         //res.send(userObj);
         req.session.user_id = userObj._id;
+        console.log(userObj._id)
         res.redirect('/users/' + userObj.user_name);
     }
     catch(error)

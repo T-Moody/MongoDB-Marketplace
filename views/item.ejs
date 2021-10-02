@@ -5,7 +5,7 @@
       <p class="card-text">Item ID <%= item._id.toString() %></p>
       <!-- Add item owner field if this is not the current users item -->
       <% if (!item.owner.equals(locals.user._id)) { %>
-        <p class="card-text">Seller: <%= item.owner %></p>
+        <p class="card-text">Seller: <%= item.owner_user_name %></p>
       <% } %>
       <!-- Add delete field if this is the current users item -->
       <% if (item.owner.equals(locals.user._id)) { %>
