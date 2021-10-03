@@ -7,6 +7,7 @@ const path = require('path');
 const mongoose = require('mongoose');  // ODM for MongoDB
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const methodOverride = require('method-override');
 
 // Import user and item routers.
 const userRouter = require('./routers/User');      
@@ -27,6 +28,7 @@ app.listen(process.env.PORT);
 
 app.set('views', path.join(__dirname, 'views')); // set the path to the views folder
 app.set('view engine', 'ejs');                   // set the view engine to engine
+app.use(methodOverride('_method'));              // For overriding delete method
 app.use(express.urlencoded({extended: true}));   // to parse requests using req.body
 app.use(express.json());                         // For recognizing incoming objects as json.
 app.use(session({                                // Session values.

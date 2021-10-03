@@ -9,7 +9,7 @@
       <% } %>
       <!-- Add delete field if this is the current users item -->
       <% if (item.owner.equals(locals.user._id)) { %>
-        <form class="mb-3 w-25" action="/products/<%=item._id%>/delete" method="GET">
+        <form class="mb-3 w-25" action="/products/<%=item._id%>?_method=delete" method="POST">
           <input type="submit" class="btn btn-primary mb-3" value="Delete">
         </form>
       <% } %>

@@ -115,7 +115,7 @@ router.post('/products/buy', authenticateUser, async (req, res) =>
 });
 // ----------------------------------------------------------------
 // Deletes a product from the database.
-router.get('/products/:id/delete', authenticateUser, async (req, res)=>
+router.delete('/products/:id', authenticateUser, async (req, res)=>
 {
     const productID = req.params.id;         // Get product id.
     const productOwnerID = req.user._id;     // Get owner id.
