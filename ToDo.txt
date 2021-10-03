@@ -1,6 +1,7 @@
 Salt password - Done
 
-There are some routes not being used.
+- There are some routes not being used.
     - Find a way to implement products get route.
-
-There is a bug that causes newly registered to get an error saying that they aren't logged in. Sometimes happens when switching users.
+- Add front end for error handling. Right now only a json message is shown.
+- Make seperate page for buying or only load a limited number of items at a time.
+- Show purchase log.
