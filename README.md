@@ -1,6 +1,6 @@
 # MongoDB-Marketplace
 Create a marketplace with user registration and sign in capabilities. User will be able to add and buy items.
 
-Master deployed at https://cis355-hw5-tylermoody.herokuapp.com/
+Master deployed at https://tylermoodymarketplace.herokuapp.com/
 
-Currently it is only a backend. You can use a tool like Postman to make requests.
+The backend still has some unused routes such allowing users to delete accounts and a route that gets all products.
